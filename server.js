@@ -3,7 +3,7 @@ var sys = require("sys"),
 	url = require("url"),
 	path = require("path"),
 	fs = require("fs"),
-	ws = require('websocket-server').WebSocket;
+	ws = require('websocket-server');
 
 http.createServer(function (request, response) {
 	if(request.url == '/') request.url = '/index.html';
