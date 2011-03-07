@@ -4,6 +4,24 @@
 	<title>Testing</title>
 </head>
 <body>
-	
+	<pre id="Input" contenteditable="true">
+		Start typing to begin.
+	</pre>
+	<script>
+		function connect() {
+			var host = "ws://64.30.140.34:8000"
+				socket = new WebSocket(host),
+				textArea = document.getElementByID('Input');
+				
+				socket.onmessage = function(msg) {
+					textArea.innerText = msg.data;
+				}
+				
+				textArea.onkeyup = function() {
+					socket.send(textArea.innerText);
+				}
+		}
+		connect();
+	</script>
 </body
 </html>
