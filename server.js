@@ -13,7 +13,7 @@ http.createServer(function (request, response) {
 			sys.debug(uri);
 			response.writeHead(404, {"Content-Type": "text/plain"});  
             response.write("404 Not Found\n");  
-            response.close();  
+            response.end();  
             return;
 		}
 		
@@ -21,13 +21,13 @@ http.createServer(function (request, response) {
 			if(err) {
 				response.writeHead(500, {"Content-Type": "text/plain"});  
                 response.write(err + "\n");  
-                response.close();  
+                response.end();  
                 return;
 			}
 			
 			response.writeHead(200);
 			response.write(file, "binary");
-			response.close();
+			response.end();
 		})
 	})
 }).listen(80);
