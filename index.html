@@ -23,16 +23,19 @@
 					textArea.value = msg.data;
 				}
 				
-				// textArea.onkeyup = function() {
-				// 					socket.send(textArea.value);
-				// 				}
-				
-				setInterval(function(){
+				textArea.onkeyup = function() {
 					if(textArea.value != CurrentText) {
 						socket.send(textArea.value);
 						CurrentText = textArea.value;
 					}
-				}, 1000);
+				}
+				
+				// setInterval(function(){
+				// 	if(textArea.value != CurrentText) {
+				// 		socket.send(textArea.value);
+				// 		CurrentText = textArea.value;
+				// 	}
+				// }, 1000);
 		}
 		connect();
 	</script>
