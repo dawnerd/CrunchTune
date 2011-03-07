@@ -5,7 +5,7 @@ var sys = require("sys"),
 	fs = require("fs"),
 	WebSocket = require('websocket-client').WebSocket;
 
-http.createServer(function (req,res) {
+http.createServer(function (request, response) {
 	var uri = url.parse(request.url).pathname;
 	var filename = path.join(process.cwd(), uri);
 	path.exists(filename, function(exists) {
