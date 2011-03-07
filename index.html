@@ -22,9 +22,13 @@
 					textArea.value = msg.data;
 				}
 				
-				textArea.onkeyup = function() {
+				// textArea.onkeyup = function() {
+				// 					socket.send(textArea.value);
+				// 				}
+				
+				setInterval(function(){
 					socket.send(textArea.value);
-				}
+				}, 500);
 		}
 		connect();
 	</script>
