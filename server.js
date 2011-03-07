@@ -11,7 +11,7 @@ http.createServer(function (request, response) {
 	path.exists(filename, function(exists) {
 		if(!exists) {
 			sys.debug(uri);
-			response.sendHeader(404, {"Content-Type": "text/plain"});  
+			response.writeHead(404, {"Content-Type": "text/plain"});  
             response.write("404 Not Found\n");  
             response.close();  
             return;
@@ -19,13 +19,13 @@ http.createServer(function (request, response) {
 		
 		fs.readFile(filename, "binary", function(err, file) {
 			if(err) {
-				response.sendHeader(500, {"Content-Type": "text/plain"});  
+				response.writeHead(500, {"Content-Type": "text/plain"});  
                 response.write(err + "\n");  
                 response.close();  
                 return;
 			}
 			
-			response.sendHeader(200);
+			response.writeHead(200);
 			response.write(file, "binary");
 			response.close();
 		})
