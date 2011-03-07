@@ -3,7 +3,7 @@ var sys = require("sys"),
 	url = require("url"),
 	path = require("path"),
 	fs = require("fs"),
-	WebSocket = require('websocket').WebSocket;
+	WebSocket = require('websocket-client').WebSocket;
 
 http.createServer(function (req,res) {
 	var uri = url.parse(request.url).pathname;
