@@ -15,7 +15,8 @@
 		function connect() {
 			var host = "ws://64.30.140.34:8000"
 				socket = new WebSocket(host),
-				textArea = document.getElementById('Input');
+				textArea = document.getElementById('Input'),
+				CurrentText = textArea.value;
 				
 				socket.onmessage = function(msg) {
 					console.log(msg);
@@ -27,7 +28,10 @@
 				// 				}
 				
 				setInterval(function(){
-					socket.send(textArea.value);
+					if(textArea.value != CurrentText) {
+						socket.send(textArea.value);
+						CurrentText = textArea.value;
+					}
 				}, 1000);
 		}
 		connect();
