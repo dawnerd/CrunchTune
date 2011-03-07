@@ -11,7 +11,7 @@
 		function connect() {
 			var host = "ws://64.30.140.34:8000"
 				socket = new WebSocket(host),
-				textArea = document.getElementByID('Input');
+				textArea = document.getElementById('Input');
 				
 				socket.onmessage = function(msg) {
 					textArea.innerText = msg.data;
