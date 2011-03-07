@@ -19,11 +19,11 @@
 				
 				socket.onmessage = function(msg) {
 					console.log(msg);
-					textArea.innerText = msg.data;
+					textArea.value = msg.data;
 				}
 				
 				textArea.onkeyup = function() {
-					socket.send(textArea.innerText);
+					socket.send(textArea.value);
 				}
 		}
 		connect();
