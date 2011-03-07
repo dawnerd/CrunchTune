@@ -3,7 +3,7 @@ var sys = require("sys"),
 	url = require("url"),
 	path = require("path"),
 	fs = require("fs"),
-	WebSocket = require('websocket-server').WebSocket;
+	ws = require('websocket-server').WebSocket;
 
 http.createServer(function (request, response) {
 	if(request.url == '/') request.url = '/index.html';
@@ -33,7 +33,6 @@ http.createServer(function (request, response) {
 }).listen(80);
 
 var server = ws.createServer();
-
 server.addListener("connection", function(connection){
 	connection.addListener("message", function(msg){
 		server.send(msg);
