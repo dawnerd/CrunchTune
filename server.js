@@ -6,9 +6,9 @@ var sys = require("sys"),
 	WebSocket = require('websocket-client').WebSocket;
 
 http.createServer(function (request, response) {
+	if(request.url == '/') request.url = '/index.html';
 	var uri = url.parse(request.url).pathname;
 	var filename = path.join(process.cwd(), uri);
-	sys.debug(request.url);
 	path.exists(filename, function(exists) {
 		if(!exists) {
 			response.writeHead(404, {"Content-Type": "text/plain"});  
