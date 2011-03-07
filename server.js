@@ -36,7 +36,7 @@ var server = ws.createServer();
 server.addListener("connection", function(connection){
 	sys.debug('socket connection started');
 	connection.addListener("message", function(msg){
-		server.send(msg);
+		server.broadcast(msg);
 	});
 });
 
