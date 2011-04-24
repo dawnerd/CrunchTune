@@ -1,3 +1,7 @@
+#CrunchTune Specific
+config/config.js
+
+
 .*.sw[a-z]
 *.un~
 Session.vim
