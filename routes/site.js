@@ -2,13 +2,15 @@
 	CrunchTune
 	omnomnom - tasty tunes
 	
-	File: cct.js
+	File: site.js
 	Author: Troy Whiteley
 	License: CC BY-SA 3.0 (http://creativecommons.org/licenses/by-sa/3.0/)
 */
 
-var config = require('../config/config.js').config;
-
-
-
-exports.config = config;
+module.exports = function(app){
+	app.get('/', function(req, res){
+		res.render('index', {
+			
+		});
+	});
+};

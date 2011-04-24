@@ -13,6 +13,7 @@ Have problems deciding what music to listen to? Of course you do. CrunchTune tak
 * Node 0.4.7
 * npm
 * Express (npm install express) https://github.com/visionmedia/express
+* Jade (npm install jade) http://jade-lang.com/
 * Rdio API key.
 
 This project is curringly running on Joyents no.de service and is being developed on Mac OSX. Other platforms should work but have not been tested.
