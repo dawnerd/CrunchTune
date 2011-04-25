@@ -8,7 +8,4 @@
 */
 
 var config = require('../config/config.js').config;
-
-
-
 exports.config = config;

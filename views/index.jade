@@ -1,1 +1,49 @@
-p hello world
+#mc
+	img(src: '/ui/images/ct-logo.png', alt: 'CrunchTune')
+	p#tagline Omnomnom
+
+	noscript
+		.uh-oh
+			p Oh no, what are you doing?! You can't use this site without JavaScript!
+			
+	- if(!session.oauth_access_token)
+		.uh-oh
+			p You need to be logged into your Rdio account.
+			p 
+				a(href: '/oauth/login') Click here to login
+	- else
+		#controls
+			#ctrl-play play
+			#ctrl-pause pause
+			.band-info
+				p
+					span#song-name
+					br
+					| By:
+					span#band-name
+			.band-more
+				p
+					span#band-info
+					br
+					a('data-action': 'new') Next Song
+
+		#CTplayer
+
+#f
+	#fc
+		p.right Powered by:
+			br
+			a(href:'http://rdio.com') Rdio
+			|  &amp; pure awesome
+		p CrunchTune is copyright 
+			a(href:'http://troywhiteley.com') Troy Whiteley
+			|  but is 100% open-source.
+			br
+			a(href:'https://github.com/dawnerd/CrunchTune') Fork your copy of CrunchTune over at GitHub.
+
+script(src:'https://ajax.googleapis.com/ajax/libs/jquery/1.5.2/jquery.min.js')
+script(src:'https://ajax.googleapis.com/ajax/libs/swfobject/2.2/swfobject.js')
+script
+	var playbackToken = '#{playbackToken}';
+	var songs = !{JSON.stringify(songs)};
+script(src:'/ui/js/narwhal.js')
