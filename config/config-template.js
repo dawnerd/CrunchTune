@@ -9,7 +9,7 @@
 exports.config = {
 	//Server settings
 	port: 3000,
-	host: 'localhost'
+	host: 'localhost',
 	
 	//Rdio settings
 	rdio_oauth_request: 'http://api.rdio.com/oauth/request_token',
