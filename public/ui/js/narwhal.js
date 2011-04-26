@@ -65,20 +65,24 @@ function update_tagline(){
 }
 var tagTime = setInterval("update_tagline()",update_freq);
 
-
+ 
 /* 
 	Rdio stuff
 */
 var player;
 var rdioListener = {
 	ready: function() {
+		console.log('player ready');
 		player = document.getElementById("CTplayer");
-		player.rdio_play(songs[0].key)
+		player.rdio_play('a254895')
+	},
+	playStateChanged: function(state) {
+		console.log('changed:', state);
 	}
 };
 var flashvars = {
 	playbackToken: playbackToken,
-	domain: 'http://'+document.location.host,
+	domain: encodeURIComponent('http://'+document.location.host),
 	listener: 'rdioListener'
 };
 var params = {
