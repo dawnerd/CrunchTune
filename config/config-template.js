@@ -5,6 +5,8 @@
 	File: config-template.js
 	Author: Troy Whiteley
 	License: CC BY-SA 3.0 (http://creativecommons.org/licenses/by-sa/3.0/)
+	
+	v.0.0.3
 */
 exports.config = {
 	//Server settings
