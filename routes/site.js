@@ -30,7 +30,7 @@ module.exports = function(app, oa){
 					req.session.oauth_access_token_secret, 
 					{
 						method: 'getPlaybackToken',
-						domain: encodeURIComponent('http://'+ct.config.host+':'+ct.config.port)
+						domain: encodeURIComponent(ct.config.host)
 					},
 					null,
 					function(error, data, response){

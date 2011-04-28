@@ -16,7 +16,9 @@ a:hover{text-decoration:underline;}
 #ctrl-play,#ctrl-pause{text-indent:-9999px;height:52px;width:51px;cursor:pointer;background:url('/ui/images/controls-sprite.png') no-repeat;}
 #ctrl-play{background-position:0 0;}
 #ctrl-pause{background-position:0 -52px;}
-#band-info{position:absolute;left:60px;top:5px;width:370px;}
-#band-info p{width:370px;overflow:hidden;white-space:nowrap;display:block;}
-#band-more{position:absolute;right:0;top:5px;}
-#band-more p{text-align:right;}
+.band-info{position:absolute;left:60px;top:5px;width:370px;}
+.band-info p{width:370px;overflow:hidden;white-space:nowrap;display:block;}
+#album-image { float:left; margin-right: 10px; }
+	#album-image img { height: 42px; }
+.band-more{position:absolute;right:0;top:5px;}
+.band-more p{text-align:right; font-size: 10px; display:none;}

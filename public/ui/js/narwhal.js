@@ -1,5 +1,7 @@
 var last_tagline = 0,
+	last_songs = [],
 	update_freq = 5000,
+	last_state = null,
 	tag_lines =  [
 		"Om nom nom",  
 		"Crunchy",
@@ -65,27 +67,72 @@ function update_tagline(){
 }
 var tagTime = setInterval("update_tagline()",update_freq);
 
+$("#ctrl-play").hide();
+$("#ctrl-pause").hide();
+
  
 /* 
 	Rdio stuff
 */
+function pickRandomSong() {
+	do {
+		var rand_s = Math.floor(Math.random()*songs.length);
+	} while(!$.inArray(rand_s, last_songs));
+	if(last_songs.length == (songs.length-1)) last_songs = [];
+	last_songs.push(rand_s);
+	return songs[rand_s];
+}
+function changeSong() {
+	//start the song
+	last_state = null;
+	var song = pickRandomSong();
+	player.rdio_play(song.key);
+	
+	$("#song-name").text(song.name);
+	$("#band-name").text(song.albumArtist);
+	$("#album-image").html($('<img/>').attr("src", song.icon));
+}
 var player;
 var rdioListener = {
 	ready: function() {
-		console.log('player ready');
 		player = document.getElementById("CTplayer");
-		player.rdio_play('a254895')
+		changeSong();
 	},
 	playStateChanged: function(state) {
-		console.log('changed:', state);
+		console.log('player state:', state);
+		if(state == 0 || state == 2 || state == 4) {
+			$("#ctrl-play").show();
+			$("#ctrl-pause").hide();
+		} else {
+			$("#ctrl-play").hide();
+			$("#ctrl-pause").show();
+		}
+		
+		if(state == 2 && last_state !== null) {
+			changeSong();
+		}
+		
+		last_state = state;
 	}
 };
 var flashvars = {
 	playbackToken: playbackToken,
-	domain: encodeURIComponent('http://'+document.location.host),
+	domain: encodeURIComponent(document.domain),
 	listener: 'rdioListener'
 };
 var params = {
 	'allowScriptAccess': 'always'
 };
 swfobject.embedSWF("http://www.rdio.com/api/swf/", "CTplayer", "1", "1", "9.0.0","", flashvars, params);
+
+//listeners
+$("#ctrl-play").click(function(e){
+	e.preventDefault();
+	player.rdio_play();
+	return false;
+});
+$("#ctrl-pause").click(function(e){
+	e.preventDefault();
+	player.rdio_pause();
+	return false;
+});
