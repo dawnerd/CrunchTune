@@ -19,4 +19,5 @@ exports.config = {
 	rdio_oauth_auth: 'https://www.rdio.com/oauth/authorize?oauth_token=',
 	rdio_api_key: '',
 	rdio_api_shared: '',
+	songs_to_grab: 50,
 };

@@ -10,7 +10,8 @@
 var express = require('express'),
 	ct = require('./app/ct.js'),
 	OAuth = require('oauth').OAuth,
-	querystring = require('querystring');
+	querystring = require('querystring'),
+	RedisStore = require('connect-redis')(express);
 	
 var app = express.createServer();
 
@@ -21,9 +22,10 @@ app.set('view engine', 'jade');
 app.use(express.logger());
 app.use(express.bodyParser());
 app.use(express.cookieParser());
-app.use(express.session({
-	secret: "98yKGKgkdrg94tnkfdh"
-}));
+// app.use(express.session({
+// 	secret: "98yKGKgkdrg94tnkfdh"
+// }));
+app.use( express.session( { secret: "98yKGKgkdrg94tnkfdh", store: new RedisStore }));
 
 app.dynamicHelpers({
 	base: function(){
@@ -52,6 +54,11 @@ var oa = new OAuth(
 	ct.config.rdio_api_shared, 
 	"1.0", "http://"+ct.config.host+":"+ct.config.port+"/oauth/callback", "HMAC-SHA1");
 
+// var io = require('socket.io'),
+// 	io = io.listen(app),
+// 	connected_clients = {},
+// 	connected_users = {};
+
 // Routes
 require('./routes/site')(app, oa);
 
@@ -59,3 +66,20 @@ if (!module.parent) {
 	app.listen(ct.config.port);
 	console.log('Server started on port '+ct.config.port);
 }
+
+// io.sockets.on('connection', function(client) {
+// 	if(!connected_clients[client.id]) {
+// 		connected_clients[client.id] = {
+// 			client: client,
+// 			user_info: null
+// 		}
+// 		console.log('Added user '+ client.id);
+// 	}
+// 	
+// 	client.on('disconnect', function() {
+// 		if(connected_clients[client.id]) {
+// 			console.log('Removing user '+client.id);
+// 			delete connected_clients[client.id];
+// 		}
+// 	});
+// });

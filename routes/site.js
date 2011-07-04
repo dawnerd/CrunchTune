@@ -19,7 +19,7 @@ module.exports = function(app, oa){
 			{
 				method: 'getTopCharts',
 				type: 'Track',
-				count: 5
+				count: 100
 			},
 			null,
 			function(error, data, response){
@@ -34,19 +34,46 @@ module.exports = function(app, oa){
 					},
 					null,
 					function(error, data, response){
-						if(error !== null) console.log(error);
-						console.log(JSON.parse(data));
-						res.render('index', {
-							playbackToken: JSON.parse(data).result,
-							songs: songs.result
-						});
+						if(error) throw new Error(error);
+						var playbackToken = JSON.parse(data).result;
+						oa.post(
+							ct.config.rdio_api, 
+							req.session.oauth_access_token, 
+							req.session.oauth_access_token_secret, 
+							{
+								method: 'currentUser',
+								extras: 'isTrial,isSubscriber'
+							},
+							null,
+							function(error, data, response){
+								if(error !== null && error.statusCode != 401) console.log(error);
+								
+								if(data) {
+									data = JSON.parse(data);
+								}
+																
+								var isTrial = isSubscriber = false;
+								if(data.status=='ok') {
+									isTrial = data.result.isTrial;
+									isSubscriber = data.result.isSubscriber;
+								}
+															
+								res.render('index', {
+									playbackToken: playbackToken,
+									songs: songs.result,
+									isTrial: isTrial,
+									isSubscriber: isSubscriber,
+									userInfo: data.result || {}
+								});
+							}
+						);
 					}
 				);
 			}
 		);
 	});
 	
-	app.get ('/oauth/login', function(req, res, params) {
+	app.get('/oauth/login', function(req, res, params) {
 		if(!req.session.oauth_access_token) {
 			oa.getOAuthRequestToken(function(error, oauth_token, oauth_token_secret, results){
 				if(error) {
@@ -66,7 +93,7 @@ module.exports = function(app, oa){
 		}
 	});
 
-	app.get ('/oauth/callback', function(req, res, params) {
+	app.get('/oauth/callback', function(req, res, params) {
 		var parsedUrl = url.parse(req.url, true);
 		oa.getOAuthAccessToken(parsedUrl.query.oauth_token, req.session.oauth_token_secret, parsedUrl.query.oauth_verifier, 
 			function(error, oauth_access_token, oauth_access_token_secret, results) {
@@ -76,4 +103,11 @@ module.exports = function(app, oa){
 			}
 		)
 	});
+	
+	app.get('/logout', function(req, res, params) {
+		delete req.session.oauth_access_token;
+		delete req.session.oauth_access_token_secret;
+		
+		res.redirect("/");
+	})
 };

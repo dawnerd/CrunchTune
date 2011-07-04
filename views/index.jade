@@ -1,48 +1,65 @@
+#userBar.cf
+	.Wrapper
+		- if(!session.oauth_access_token)
+			#userLogin
+				a(href='/oauth/login') Sign in with Rdio
+		- else
+			#userInfo
+				span#welcomeMessage Welcome,
+				|  #{userInfo.firstName} - 
+				a(href="/logout").logout logout
+
 #mc
-	img(src: '/ui/images/ct-logo.png', alt: 'CrunchTune')
+	img(src='/ui/images/ct-logo.png', alt='CrunchTune')
 	p#tagline Omnomnom
 
 	noscript
 		.uh-oh
 			p Oh no, what are you doing?! You can't use this site without JavaScript!
 			
-	- if(!session.oauth_access_token)
-		.uh-oh
-			p You need to be logged into your Rdio account.
-			p 
-				a(href: '/oauth/login') Click here to login
-	- else
-		#controls
-			#ctrl-play play
-			#ctrl-pause pause
-			.band-info
-				p
-					span#album-image
-					span#song-name
-					br
+	#controls
+		#ctrl-play play
+		#ctrl-pause pause
+		.band-info
+			p
+				span#album-image
+				span#song-name
+				br
+				span.artist
 					| By:
 					span#band-name
-			.band-more
-				p
-					a('data-action': 'new') Next Song
+		.band-more
+			p
+				a#next-song('data-action'='new',href="#") Next Song
+			
+			#PlusOne
+				
+	- if(!session.oauth_access_token || isTrial)
+		.uh-oh
+			p 
+				a(href="http://click.linksynergy.com/fs-bin/click?id=FkOvMBnEzh8&offerid=221756.12&type=4&subid=0")
+					img(alt="Unlimited Music, Everywhere. Try Rdio for Free.", border="0", src="http://rdio.com/media/images/affiliate/generic_type3_468x60.jpg")
+				img(border="0", width="1", height="1", src="http://ad.linksynergy.com/fs-bin/show?id=FkOvMBnEzh8&bids=221756.12&type=4&subid=0")
 
-		#CTplayer
+	#CTplayer
 
 #f
 	#fc
 		p.right Powered by:
 			br
-			a(href:'http://rdio.com') Rdio
+			a(href='http://rdio.com') Rdio
 			|  &amp; pure awesome
 		p CrunchTune is copyright 
-			a(href:'http://troywhiteley.com') Troy Whiteley
+			a(href='http://troywhiteley.com') Troy Whiteley
 			|  but is 100% open-source.
 			br
-			a(href:'https://github.com/dawnerd/CrunchTune') Fork your copy of CrunchTune over at GitHub.
+			a(href='https://github.com/dawnerd/CrunchTune') Fork your copy of CrunchTune over at GitHub.
 
-script(src:'https://ajax.googleapis.com/ajax/libs/jquery/1.5.2/jquery.min.js')
-script(src:'https://ajax.googleapis.com/ajax/libs/swfobject/2.2/swfobject.js')
+script(src='https://ajax.googleapis.com/ajax/libs/jquery/1.5.2/jquery.min.js')
+script(src='https://ajax.googleapis.com/ajax/libs/swfobject/2.2/swfobject.js')
 script
 	var playbackToken = '#{playbackToken}';
 	var songs = !{JSON.stringify(songs)};
-script(src:'/ui/js/narwhal.js')
+	var socket = io.connect();
+	var userInfo = !{JSON.stringify(userInfo)};
+script(src='/ui/js/narwhal.js')

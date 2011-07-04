@@ -2,6 +2,7 @@ var last_tagline = 0,
 	last_songs = [],
 	update_freq = 5000,
 	last_state = null,
+	last_welcome = 0,
 	tag_lines =  [
 		"Om nom nom",  
 		"Crunchy",
@@ -54,7 +55,38 @@ var last_tagline = 0,
 		"I should wash my car",
 		"Noooooooooooooooo",
 		"And my axe!",
-		"FFFFFFFUUUUUUUUUUUU"
+		"FFFFFFFUUUUUUUUUUUU",
+		"Y U NO READ ME?",
+		"LOL U MAD?",
+		"Wooooow",
+		"Number 5 is alive."
+	],
+	welcome_messages = [
+		"Salaam",
+		"Welcome",
+		"Dobrodošli",
+		"Vítáme tĕ",
+		"Velkommen",
+		"Welkom",
+		"Bienvenue",
+		"Wolkom",
+		"Willkommen",
+		"Guten tag",
+		"Καλώς ορίσατε",
+		"Aloha",
+		"Shalom",
+		"Benvenuto",
+		"歡迎",
+		"欢迎",
+		"ようこそ",
+		"환영합니다",
+		"Тавтай морилогтун",
+		"Bem-vindo",
+		"Bienvenido",
+		"Välkommen",
+		"Mabuhay",
+		"Swaagatham",
+		"Merhaba"
 	];
 	
 function update_tagline(){	
@@ -64,6 +96,13 @@ function update_tagline(){
 	last_tagline = rand_n;
 	var tag_line = tag_lines[rand_n];
 	$('#tagline').fadeOut('',function(){$('#tagline').html(tag_line).fadeIn()});
+	
+	do {
+		var rand_w = Math.floor(Math.random()*welcome_messages.length);
+	} while(last_welcome==rand_w);
+	last_welcome = rand_w;
+	var welcome = welcome_messages[rand_w];
+	$('#welcomeMessage').fadeOut('',function(){$('#welcomeMessage').html(welcome+',').fadeIn()});
 }
 var tagTime = setInterval("update_tagline()",update_freq);
 
@@ -88,9 +127,16 @@ function changeSong() {
 	var song = pickRandomSong();
 	player.rdio_play(song.key);
 	
-	$("#song-name").text(song.name);
-	$("#band-name").text(song.albumArtist);
+	$("#song-name").html('<a href="'+song.shortUrl+'">'+song.name+'</a>');
+	$("#band-name").html('<a href="http://rdio.com'+song.artistUrl+'">'+song.albumArtist+'</a>');
 	$("#album-image").html($('<img/>').attr("src", song.icon));
+	
+	// Google+ support
+	gapi.plusone.render('PlusOne', {
+		size: "small",
+		count: true,
+		href: song.shortUrl
+	});
 }
 var player;
 var rdioListener = {
@@ -99,7 +145,6 @@ var rdioListener = {
 		changeSong();
 	},
 	playStateChanged: function(state) {
-		console.log('player state:', state);
 		if(state == 0 || state == 2 || state == 4) {
 			$("#ctrl-play").show();
 			$("#ctrl-pause").hide();
@@ -134,5 +179,10 @@ $("#ctrl-play").click(function(e){
 $("#ctrl-pause").click(function(e){
 	e.preventDefault();
 	player.rdio_pause();
+	return false;
+});
+$("#next-song").click(function(e){
+	e.preventDefault();
+	changeSong();
 	return false;
 });

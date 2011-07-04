@@ -3,4 +3,19 @@ html
 	head
 		title CrunchTune - omnomnom, tasty.
 		link(rel='stylesheet', href=base+'/ui/layout.css')
+		script(src='/socket.io/socket.io.js')
+		script(src="https://apis.google.com/js/plusone.js")
+			{parsetags: 'explicit'}
+		script
+			var _gaq = _gaq || [];
+			_gaq.push(['_setAccount', 'UA-933185-16']);
+			_gaq.push(['_setDomainName', 'crunchtune.com']);
+			_gaq.push(['_setAllowHash', 'false']);
+			_gaq.push(['_trackPageview']);
+
+			(function() {
+				var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+				ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+				var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+			})();
 	body!= body
